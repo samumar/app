@@ -57,6 +57,17 @@ body{background-image: url("images_folder/black_white.png") no-repeat; backgroun
   color: #FFF;
   background-color: #4e57fc;
 }
+@media only screen and (max-width: 414px){
+  body {
+    background-image:url('images_folder/black_white.png');
+  }
+}
+
+@media only screen and (min-width:300px){
+  body {
+    background-image:url('images_folder/black_white.png');
+  }
+}
 .text {
 font-size: 25px;
 line-height: 25px;
