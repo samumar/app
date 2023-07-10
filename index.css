@@ -110,7 +110,7 @@ button, input, select, textarea {
 
 @media only screen and (min-width:300px){
   body {
-    background-color:#F5A9F2;
+    background-image: url("images_folder/black_white.png");
   }
 }
 
