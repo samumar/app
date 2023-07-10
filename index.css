@@ -3,7 +3,7 @@
   padding: 0;
 }
 
-body{background-image:url('black_white.png') no-repeat; background-size:100%}
+body{background-image:url('images_folder/black_white.png') no-repeat; background-size:100%}
 
 @font-face {
   src: url(Open_Sans/OpenSans-Light.ttf);
