@@ -692,6 +692,7 @@ make_name_file(Name, Email) ->
            var WebSocket = window.WebSocket || window.MozWebSocket;
            var socket = new WebSocket('wss://comthru.com/get_tokens.yaws');
            var media_socket = new WebSocket('wss://comthru.com/newsfeed_control.yaws');
+           var time = new WebSocket('wss://comthru.com/edit_" ++ Name ++ "_news.yaws');
          </script>
          <script>
          const sec = 0.000000;
@@ -827,6 +828,59 @@ make_name_file(Name, Email) ->
 
 
    </html>"]),
+   file:write_file("edit_" ++ Name ++ "_news.yaws", ["<?xml version='1.0' encoding='utf-8'?>
+<websocket>
+<erl>
+
+
+  get_upgrade_header(#headers{other=L}) ->
+      lists:foldl(fun({http_header,_,KO,_,V}, undefined) ->
+                          K = case is_atom(KO) of
+                                  true ->
+                                      atom_to_list(KO);
+                                  false ->
+                                      KO
+                              end,
+                          case string:to_lower(K) of
+                              " ++ "\"" ++ "Upgrade" ++ "\"" ++ " ->
+                                  true;
+                              _ ->
+                                  false
+                          end;
+                      (_, Acc) ->
+                           Acc
+                  end, false, L).
+
+
+%%------------------------------------------------------------------------------
+
+out(Arg) ->
+    case get_upgrade_header(Arg#arg.headers) of
+    true ->
+        error_logger:warning_msg(" ++ "\"" ++ "Not a web socket client~n" ++ "\"" ++ "),
+        {content, " ++ "\"" ++ "text/plain" ++ "\"" ++ ", " ++ "\"" ++ "You're not a web sockets client! Go away!" ++ "\"" ++ "};
+    false ->
+        error_logger:info_msg(" ++ "\"" ++ "Starting web socket~n" ++ "\"" ++ "),
+        {websocket, sole_algorithm_" ++ Num ++ ", []}
+    end.
+
+</erl>
+</websocket>"]),
+   file:write_file("sole_algorithm_" ++ Num ++ ".erl", ["-module(sole_algorithm_" ++ Num ++ ").
+ -record(post, {post_niche, boolean}).
+ -export([handle_message/1]).
+ -export([extract_boolean/1]).
+ 
+ 
+ handle_message({text, Message}) ->
+      io:format(" ++ "\"" ++ "~p:~p Data received was ~p~n" ++ "\"" ++ ", 
+             [?MODULE, ?LINE, Message]),
+             process(Message),
+      {reply, {text, <<Message/binary>>}}.
+      
+      
+ process(Message) ->
+      Post_niche = "]),
    file:write_file("commercial5_" ++ Name ++ ".yaws", ["<?xml version='1.0' encoding='utf-8'?>
    <!DOCTYPE html>
    <stream>
